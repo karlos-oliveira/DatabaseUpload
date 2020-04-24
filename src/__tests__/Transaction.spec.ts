@@ -3,8 +3,8 @@ import path from 'path';
 import { Connection, getRepository, getConnection } from 'typeorm';
 import createConnection from '../database';
 
-import Transaction from '../models/Transaction';
-import Category from '../models/Category';
+import Transactions from '../models/Transaction';
+import Categories from '../models/Category';
 
 import app from '../app';
 
@@ -61,7 +61,7 @@ describe('Transaction', () => {
   });
 
   it('should be able to create new transaction', async () => {
-    const transactionsRepository = getRepository(Transaction);
+    const transactionsRepository = getRepository(Transactions);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -86,8 +86,8 @@ describe('Transaction', () => {
   });
 
   it('should create tags when inserting new transactions', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = getRepository(Transactions);
+    const categoriesRepository = getRepository(Categories);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -121,8 +121,8 @@ describe('Transaction', () => {
   });
 
   it('should not create tags when they already exists', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = getRepository(Transactions);
+    const categoriesRepository = getRepository(Categories);
 
     const { identifiers } = await categoriesRepository.insert({
       title: 'Salary',
@@ -175,7 +175,7 @@ describe('Transaction', () => {
   });
 
   it('should be able to delete a transaction', async () => {
-    const transactionsRepository = getRepository(Transaction);
+    const transactionsRepository = getRepository(Transactions);
 
     const response = await request(app).post('/transactions').send({
       title: 'March Salary',
@@ -192,8 +192,8 @@ describe('Transaction', () => {
   });
 
   it('should be able to import transactions', async () => {
-    const transactionsRepository = getRepository(Transaction);
-    const categoriesRepository = getRepository(Category);
+    const transactionsRepository = getRepository(Transactions);
+    const categoriesRepository = getRepository(Categories);
 
     const importCSV = path.resolve(__dirname, 'import_template.csv');
 
